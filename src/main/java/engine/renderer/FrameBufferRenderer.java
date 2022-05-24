@@ -8,6 +8,7 @@ import org.joml.Vector4f;
 import static org.lwjgl.opengl.GL11.*;
 
 public class FrameBufferRenderer {
+    // const vars
     public static final float DEFAULTVERTICES[] = {
             // positions   // texCoords
             -1.0f,  1.0f,  0.0f, 1.0f,
@@ -25,12 +26,23 @@ public class FrameBufferRenderer {
     };
 
 
+    // class vars
+
     private FrameBuffer frameBuffer;
     private VertexHandler vertexHandler;
     private Shader fbShader;
     private Vector4f clearColor;
 
     public FrameBufferRenderer(FrameBuffer frameBuffer, Shader fbShader){
+        /*
+            To use the FrameBufferRenderer
+                1. create framebuffer
+                2. create a shader for the framebuffer to use
+                3. after creating framebufferrenderer object, you must getVertexHandler
+                4. and add Attributes as needed
+                5. then call this.create()
+                6. then you can render :)
+        */
         this.frameBuffer = frameBuffer;
         this.fbShader = fbShader;
         this.vertexHandler = new VertexHandler(DEFAULTVERTICES, DEFAULTINDICES);

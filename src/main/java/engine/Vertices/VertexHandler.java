@@ -51,6 +51,14 @@ public class VertexHandler {
         unbind();
     }
 
+    public void render(){
+        bind();
+        enableVertexAttribs();
+        glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
+        disableVertexAttribs();
+        unbind();
+    }
+
     public void clean(){
         glDeleteVertexArrays(vao);
         glDeleteBuffers(vbo);

@@ -1,5 +1,6 @@
 import Avien.camera.Camera2D;
 import engine.Vertices.Attribute;
+import engine.Vertices.VertexHandler;
 import engine.graphics.FrameBuffer;
 import engine.graphics.Shader;
 import engine.hardware.Window;
@@ -39,7 +40,7 @@ public class Game {
 
     static Shader shader, fbShader;
     static FrameBuffer frameBuffer;
-    static int vao, vbo, ebo;
+    static VertexHandler vertexHandler;
     static FrameBufferRenderer fbr;
 
     public static void init(){
@@ -55,56 +56,37 @@ public class Game {
         fbShader.uploadInt("fbTex", 0);
 
         // enable vao
-        vao = glGenVertexArrays();
-        glBindVertexArray(vao);
-        vbo = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glBufferData(GL_ARRAY_BUFFER, vertices.length * Float.BYTES, GL_STATIC_DRAW);
-        ebo = glGenBuffers();
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
-        // attrib stuffs
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 7 * Float.BYTES, 0);
-        glVertexAttribPointer(1, 4, GL_FLOAT, false, 7 * Float.BYTES, 3 * Float.BYTES);
-        // actually upload data
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
-        // unbind
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
-        glBindVertexArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        vertexHandler = new VertexHandler(vertices, indices);
+        vertexHandler.addAttribArray(new Attribute(0, 3, GL_FLOAT, false, 7 * Float.BYTES, 0));
+        vertexHandler.addAttribArray(new Attribute(1, 4, GL_FLOAT, false, 7 * Float.BYTES, 3 * Float.BYTES));
+        vertexHandler.create();
+//        vao = glGenVertexArrays();
+//        glBindVertexArray(vao);
+//        vbo = glGenBuffers();
+//        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+//        glBufferData(GL_ARRAY_BUFFER, vertices.length * Float.BYTES, GL_STATIC_DRAW);
+//        ebo = glGenBuffers();
+//        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+//        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
+//        // attrib stuffs
+//        glEnableVertexAttribArray(0);
+//        glEnableVertexAttribArray(1);
+//        glVertexAttribPointer(0, 3, GL_FLOAT, false, 7 * Float.BYTES, 0);
+//        glVertexAttribPointer(1, 4, GL_FLOAT, false, 7 * Float.BYTES, 3 * Float.BYTES);
+//        // actually upload data
+//        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+//        glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
+//        // unbind
+//        glDisableVertexAttribArray(0);
+//        glDisableVertexAttribArray(1);
+//        glBindVertexArray(0);
+//        glBindBuffer(GL_ARRAY_BUFFER, 0);
+//        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
         fbr = new FrameBufferRenderer(frameBuffer, fbShader);
         fbr.getVertexHandler().addAttribArray(new Attribute(0, 2, GL_FLOAT, false, 4 * Float.BYTES, 0));
         fbr.getVertexHandler().addAttribArray(new Attribute(1, 2, GL_FLOAT, false, 4 * Float.BYTES, 2 * Float.BYTES));
         fbr.create();
-
-
-        // create framebuffer stuff | only 2 float per vertex b/c vshader can calculate tex coords
-//        fbvao = glGenVertexArrays();
-//        glBindVertexArray(fbvao);
-//        fbvbo = glGenBuffers();
-//        glBindBuffer(GL_ARRAY_BUFFER, fbvbo);
-//        glBufferData(GL_ARRAY_BUFFER, fbVertices.length * Float.BYTES, GL_STATIC_DRAW);
-//        glBufferSubData(GL_ARRAY_BUFFER, 0, fbVertices);
-//        fbebo = glGenBuffers();
-//        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, fbebo);
-//        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
-//        glEnableVertexAttribArray(0);
-//        glEnableVertexAttribArray(1);
-//        glVertexAttribPointer(0, 2, GL_FLOAT, false, 4 * Float.BYTES, 0);
-//        glVertexAttribPointer(1, 2, GL_FLOAT, false, 4 * Float.BYTES, 2 * Float.BYTES);
-//        // unbind
-//        glDisableVertexAttribArray(0);
-//        glDisableVertexAttribArray(1);
-//        glBindBuffer(GL_ARRAY_BUFFER, 0);
-//        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-//        glBindVertexArray(0);
-
 
     }
 
@@ -122,46 +104,21 @@ public class Game {
 
         // draw scene
         shader.bind();
-        glBindVertexArray(vao);
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-        glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
-        glBindVertexArray(0);
+        vertexHandler.render();
         shader.unbind();
 
         // back to default window surface
         frameBuffer.unbind();
 
+        // render framebuffer
         fbr.render();
-//        glDisable(GL_DEPTH_TEST);
-//
-//        // draw framebuffer to screen
-//        glClearColor(.5f, .5f, .5f, 1.0f);
-//        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//
-//        fbShader.bind();
-//        glBindVertexArray(fbvao);
-//        frameBuffer.bindTexture();
-//        glEnableVertexAttribArray(0);
-//        glEnableVertexAttribArray(1);
-//        glDrawArrays(GL_TRIANGLES, 0, 6);
-//        glDisableVertexAttribArray(0);
-//        glDisableVertexAttribArray(1);
-//
-//        frameBuffer.unbindTexture();
-//        fbShader.unbind();
-
 
     }
 
     public static void clean(){
         shader.clean();
         fbShader.clean();
-        glDeleteVertexArrays(vao);
-        glDeleteBuffers(vbo);
-        glDeleteBuffers(ebo);
+        vertexHandler.clean();
         fbr.clean();
     }
 
