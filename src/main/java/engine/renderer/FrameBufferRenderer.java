@@ -7,7 +7,7 @@ import org.joml.Vector4f;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class FrameBufferRenderer {
+public class FrameBufferRenderer implements Renderer {
     // const vars
     public static final float DEFAULTVERTICES[] = {
             // positions   // texCoords

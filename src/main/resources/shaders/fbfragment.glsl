@@ -10,6 +10,6 @@ uniform vec2 pixels;
 
 void main() {
 //    gl_FragColor = vec4(vec3(1.0 - texture2D(fbTex, fTex)), 1.0);
-    // vec2 uv = floor(fTex * pixels) / pixels;
-    gl_FragColor = texture2D(fbTex, fTex);// uv);
+//     vec2 uv = floor(fTex * pixels) / pixels;
+    gl_FragColor = texture2D(fbTex, fTex);//uv);
 }

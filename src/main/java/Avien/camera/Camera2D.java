@@ -44,8 +44,8 @@ public class Camera2D extends Camera {
             updateProjMatrix();
             updateViewMatrix();
 
-            System.out.println(projMatrix.toString());
-            System.out.println(viewMatrix.toString());
+//            System.out.println(projMatrix.toString());
+//            System.out.println(viewMatrix.toString());
             notChanged();
         }
     }

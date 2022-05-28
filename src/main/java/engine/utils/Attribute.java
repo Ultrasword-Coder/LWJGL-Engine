@@ -1,4 +1,4 @@
-package engine.Vertices;
+package engine.utils;
 
 import static org.lwjgl.opengl.GL20.*;
 
@@ -46,6 +46,10 @@ public class Attribute {
 
     public void disableAttrib(){
         glDisableVertexAttribArray(index);
+    }
+
+    public String toString(){
+        return String.format("Index: %d | Size(bytes): %d | Type: %d | Normalized: %s | Stride(bytes): %d | Pointer(bytes): %d", index, size, type, String.valueOf(normalized), stride, pointer);
     }
 
 }

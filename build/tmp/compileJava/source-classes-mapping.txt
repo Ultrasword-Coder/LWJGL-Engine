@@ -2,20 +2,34 @@ engine/graphics/Texture.java
  engine.graphics.Texture
 Avien/camera/Camera2D.java
  Avien.camera.Camera2D
+engine/handler/Handler.java
+ engine.handler.Handler
 engine/hardware/MouseListener.java
  engine.hardware.MouseListener
+engine/renderer/SquareBatchRenderer.java
+ engine.renderer.SquareBatchRenderer
+engine/utils/Attribute.java
+ engine.utils.Attribute
 engine/hardware/Window.java
  engine.hardware.Window
 engine/Vertices/VertexHandler.java
  engine.Vertices.VertexHandler
 engine/hardware/KeyboardListener.java
  engine.hardware.KeyboardListener
+Avien/camera/Camera3D.java
+ Avien.camera.Camera3D
+engine/component/Component.java
+ engine.component.Component
+engine/physics/GameObject.java
+ engine.physics.GameObject
 engine/graphics/Camera.java
  engine.graphics.Camera
 engine/graphics/FrameBuffer.java
  engine.graphics.FrameBuffer
-engine/Vertices/Attribute.java
- engine.Vertices.Attribute
+engine/component/Translation.java
+ engine.component.Translation
+engine/renderer/Renderer.java
+ engine.renderer.Renderer
 engine/graphics/Shader.java
  engine.graphics.Shader
 engine/utils/FileIO.java

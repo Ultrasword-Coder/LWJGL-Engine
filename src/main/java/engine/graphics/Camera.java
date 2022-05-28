@@ -12,7 +12,7 @@ public abstract class Camera {
     protected Matrix4f viewMatrix;
     protected Matrix4f projMatrix;
 
-    private boolean changed;
+    protected boolean changed;
 
     public Camera(float width, float height){
         this.width = width;
@@ -21,6 +21,18 @@ public abstract class Camera {
         this.up = new Vector3f(0.0f, 1.0f, 0.0f);               // set default up
         this.viewMatrix = new Matrix4f();
         this.projMatrix = new Matrix4f();
+        changed = true;
+    }
+
+    public void move(Vector3f translation){
+        this.position.add(translation);
+        changed = true;
+    }
+
+    public void move(float x, float y, float z){
+        this.position.x += x;
+        this.position.y += y;
+        this.position.z += z;
         changed = true;
     }
 
