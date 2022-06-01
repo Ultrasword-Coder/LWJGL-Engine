@@ -1,4 +1,6 @@
 import Avien.camera.Camera2D;
+import engine.handler.ShaderHandler;
+import engine.handler.TextureHandler;
 import engine.utils.Attribute;
 import engine.Vertices.VertexHandler;
 import engine.graphics.Shader;
@@ -35,10 +37,8 @@ public class TextureTest extends Test{
 
     @Override
     public void init() {
-        texShader = new Shader("shaders/texvertex.glsl", "shaders/texfragment.glsl");
-        texShader.create();
-        image = new Texture("assets/art.jpg");
-        image.create();
+        texShader = ShaderHandler.getShader("shaders/tex.glsl");
+        image = TextureHandler.getTexture("assets/art.jpg");
         vertexHandler = new VertexHandler(vertices, indices);
         vertexHandler.addAttribArray(new Attribute(0, 2, GL_FLOAT, false, 4 * Float.BYTES, 0));
         vertexHandler.addAttribArray(new Attribute(1, 2, GL_FLOAT, false, 4 * Float.BYTES, 2 * Float.BYTES));
@@ -63,9 +63,9 @@ public class TextureTest extends Test{
 
     @Override
     public void clean() {
-        image.clean();
-        texShader.clean();
         vertexHandler.clean();
+        ShaderHandler.clean();
+        TextureHandler.clean();
     }
 
     public static void main(String[] args){

@@ -1,9 +1,19 @@
 package engine.renderer;
 
-public interface Renderer {
+import engine.utils.RendererHandlerID;
 
-    public void create();
-    public void render();
-    public void clean();
+public abstract class Renderer {
+    private RendererHandlerID rendererHandlerID;
 
+    public abstract void create();
+    public abstract void render();
+    public abstract void clean();
+
+    public RendererHandlerID getRendererHandlerID() {
+        return rendererHandlerID;
+    }
+
+    public void setRendererHandlerID(RendererHandlerID rendererHandlerID) {
+        this.rendererHandlerID = rendererHandlerID;
+    }
 }

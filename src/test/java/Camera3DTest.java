@@ -3,6 +3,8 @@ import Avien.camera.Camera3D;
 import engine.Vertices.VertexHandler;
 import engine.graphics.Shader;
 import engine.graphics.Texture;
+import engine.handler.ShaderHandler;
+import engine.handler.TextureHandler;
 import engine.hardware.KeyboardListener;
 import engine.hardware.Window;
 import engine.utils.Attribute;
@@ -30,22 +32,20 @@ public class Camera3DTest extends Test{
             7, 6, 4, 4, 6, 5
     };
 
-    static Camera3D camera3D;
+    static Camera3D camera;
     static VertexHandler vertexHandler;
     static Shader shader;
     static Texture texture;
 
     @Override
     public void init() {
-        texture = new Texture("assets/art.png");
-        texture.create();
-        camera3D = new Camera3D(1280f, 720f);
+        texture = TextureHandler.getTexture("assets/art.png");
+        camera = new Camera3D(1280f, 720f);
         vertexHandler = new VertexHandler(vertices, indices);
         vertexHandler.addAttribArray(new Attribute(0, 3, GL_FLOAT, false, 5 * Float.BYTES, 0));
         vertexHandler.addAttribArray(new Attribute(1, 2, GL_FLOAT, false, 5 * Float.BYTES, 3 * Float.BYTES));
         vertexHandler.create();
-        shader = new Shader("shaders/cam3dvertex.glsl", "shaders/cam3dfragment.glsl");
-        shader.create();
+        shader = ShaderHandler.getShader("shaders/cam3d.glsl");
 
         shader.uploadInt("tex", 0);
     }
@@ -54,7 +54,7 @@ public class Camera3DTest extends Test{
     public void render() {
         shader.uploadFloat("uTime", Time.getTime());
 
-        glClearColor(0.0f, 0.0f, .0f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         shader.bind();
@@ -69,8 +69,8 @@ public class Camera3DTest extends Test{
     @Override
     public void clean() {
         vertexHandler.clean();
-        texture.clean();
-        shader.clean();
+        TextureHandler.clean();
+        ShaderHandler.clean();
     }
 
     public static void main(String[] args){
@@ -80,14 +80,13 @@ public class Camera3DTest extends Test{
         window.init();
         test.init();
 
-        Camera2D camera = new Camera2D(1280f, 720f);
-
         float SPEED = 200;
 
         Time.start();
         while(!window.shouldWindowClose()){
             Window.pollEvents();
 //            window.clearMasks();
+            camera.changeRotation(100 * Time.deltaTime, 50 * Time.deltaTime, 0, 0);
 
             // update
             if(KeyboardListener.isKeyPressed(GLFW_KEY_A))

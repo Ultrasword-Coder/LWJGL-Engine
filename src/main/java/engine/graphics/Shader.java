@@ -12,32 +12,33 @@ import static org.lwjgl.opengl.GL20.*;
 public class Shader {
     // const vars
     public static final int NULLSHADER = 0;
-
+    private static final String VERTEXIDENTIFIER = "#vertex", FRAGMENTIDENTIFIER = "#fragment";
 
     // shader
-    private String vFile, fFile;
-    private String vShader, fShader;
+    private String file;
+    private String shaderSource, vSource, fSource;
     private int vID, fID, programID;
 
     // TODO - make a buffer that stores positions of uniforms
 
-    public Shader(String v, String f){
-        this.vFile = v;
-        this.fFile = f;
+    public Shader(String path){
+        this.file = path;
         // load file contents into strings
-        this.vShader = FileIO.getFileContents(v);
-        this.fShader = FileIO.getFileContents(f);
+        this.shaderSource = FileIO.getFileContents(path);
     }
 
     public void create(){
+        // parse shader
+        parseShader();
+
         // create the shader here
         vID = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vID, vShader);
+        glShaderSource(vID, vSource);
         glCompileShader(vID);
         checkCompileErrors(GL_VERTEX_SHADER, vID);
 
         fID = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fID, fShader);
+        glShaderSource(fID, fSource);
         glCompileShader(fID);
         checkCompileErrors(GL_FRAGMENT_SHADER, fID);
 
@@ -55,24 +56,42 @@ public class Shader {
         }
     }
 
+    private void parseShader(){
+        // first must be vertex shader
+        // next must be fragment shader
+        String[] split = shaderSource.split("\n");
+        StringBuilder builder = new StringBuilder();
+        int endOfVert = 0;
+        for(int i = 1; i < split.length; i++){
+            if(split[i].equals(FRAGMENTIDENTIFIER)){
+                endOfVert = i+1;
+                break;
+            }
+            builder.append(split[i] + "\n");
+        }
+        // this means end of vertex
+        vSource = builder.toString();
+        builder = new StringBuilder();
+        // prase fragment
+        for(int i = endOfVert; i < split.length; i++){
+            builder.append(split[i] + "\n");
+        }
+        fSource = builder.toString();
+    }
+
     private void checkCompileErrors(int type, int sID){
         int success = glGetShaderi(sID, GL_COMPILE_STATUS);
         if(success == GL_FALSE){
             int len = glGetShaderi(sID, GL_INFO_LOG_LENGTH);
-            System.err.format("[Shader | checkCompileErrors] %s shader compilation failed from file '%s'\n",
-                    type == GL_VERTEX_SHADER ? "Vertex" : "Fragment", type == GL_VERTEX_SHADER ? vShader : fShader);
+            System.err.format("[Shader | checkCompileErrors] %s shader compilation failed from file '%s'\n", file);
             System.err.println(glGetShaderInfoLog(sID, len));
             assert false : "Failed to compile shader!";
         }
     }
 
     // methods
-    public String getVertexShader(){
-        return vFile;
-    }
-
-    public String getFragShader(){
-        return fFile;
+    public String getShaderFile(){
+        return file;
     }
 
     // methods for uploading

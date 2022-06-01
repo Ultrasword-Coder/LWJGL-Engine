@@ -30,7 +30,6 @@ public class Camera3D extends Camera {
         this.fov = fov;
         this.near = near;
         this.far = far;
-        glFrustum(-width/2, width/2, -height/2, height/2, near, far);
     }
 
     public Camera3D(float width, float height){
@@ -41,6 +40,8 @@ public class Camera3D extends Camera {
         projMatrix.identity();
         projMatrix.perspective((float)Math.toRadians(fov), aspect, near, far);
         projMatrix.frustum(-width/2, width/2, -height/2, height/2, near, far);
+        // glFrustum(-width/2, width/2, -height/2, height/2, near, far);
+
     }
 
     public void updateTranslationMatrix(){
@@ -56,5 +57,15 @@ public class Camera3D extends Camera {
             updateTranslationMatrix();
             notChanged();
         }
+    }
+
+    public void changeRotation(Quaternionf rotation){
+        this.rotation.add(rotation);
+        this.changed = true;
+    }
+
+    public void changeRotation(float x, float y, float z, float w){
+        this.rotation.add(x, y, z, w);
+        this.changed = true;
     }
 }

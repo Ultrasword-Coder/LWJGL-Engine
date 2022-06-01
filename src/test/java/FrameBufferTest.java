@@ -1,4 +1,6 @@
 import Avien.camera.Camera2D;
+import engine.handler.ShaderHandler;
+import engine.handler.TextureHandler;
 import engine.utils.Attribute;
 import engine.Vertices.VertexHandler;
 import engine.graphics.Shader;
@@ -43,15 +45,13 @@ public class FrameBufferTest extends Test{
     static FrameBufferRenderer fbr;
 
     public void init(){
-        shader = new Shader("shaders/vertex.glsl", "shaders/fragment.glsl");
-        shader.create();
+        shader = ShaderHandler.getShader("shaders/default.glsl");
         shader.uploadVec3f("uRes", new Vector3f(250.0f, 250.0f, 0.0f));
 
         frameBuffer = new engine.graphics.FrameBuffer(1280, 720);
         frameBuffer.create();
 
-        fbShader = new Shader("shaders/fbvertex.glsl", "shaders/fbfragment.glsl");
-        fbShader.create();
+        fbShader = ShaderHandler.getShader("shaders/fbdefault.glsl");
         fbShader.uploadInt("fbTex", 0);
         // optional
         fbShader.uploadVec2f("pixels", new Vector2f(160f/2, 90f/2));
@@ -90,8 +90,8 @@ public class FrameBufferTest extends Test{
     }
 
     public void clean(){
-        shader.clean();
-        fbShader.clean();
+        ShaderHandler.clean();
+        TextureHandler.clean();
         vertexHandler.clean();
         fbr.clean();
     }

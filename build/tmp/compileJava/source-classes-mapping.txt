@@ -1,42 +1,54 @@
 engine/graphics/Texture.java
  engine.graphics.Texture
-Avien/camera/Camera2D.java
- Avien.camera.Camera2D
-engine/handler/Handler.java
- engine.handler.Handler
-engine/hardware/MouseListener.java
- engine.hardware.MouseListener
-engine/renderer/SquareBatchRenderer.java
- engine.renderer.SquareBatchRenderer
-engine/utils/Attribute.java
- engine.utils.Attribute
+engine/handler/TextureHandler.java
+ engine.handler.TextureHandler
 engine/hardware/Window.java
  engine.hardware.Window
 engine/Vertices/VertexHandler.java
  engine.Vertices.VertexHandler
 engine/hardware/KeyboardListener.java
  engine.hardware.KeyboardListener
+engine/graphics/SpriteSheet.java
+ engine.graphics.SpriteSheet
 Avien/camera/Camera3D.java
  Avien.camera.Camera3D
 engine/component/Component.java
  engine.component.Component
-engine/physics/GameObject.java
- engine.physics.GameObject
 engine/graphics/Camera.java
  engine.graphics.Camera
 engine/graphics/FrameBuffer.java
  engine.graphics.FrameBuffer
 engine/component/Translation.java
  engine.component.Translation
+engine/component/Sprite.java
+ engine.component.Sprite
+engine/utils/Time.java
+ engine.utils.Time
+engine/renderer/FrameBufferRenderer.java
+ engine.renderer.FrameBufferRenderer
+engine/handler/ShaderHandler.java
+ engine.handler.ShaderHandler
+Avien/camera/Camera2D.java
+ Avien.camera.Camera2D
+engine/utils/Color.java
+ engine.utils.Color
+engine/hardware/MouseListener.java
+ engine.hardware.MouseListener
+engine/utils/Attribute.java
+ engine.utils.Attribute
+engine/physics/GameObject.java
+ engine.physics.GameObject
 engine/renderer/Renderer.java
  engine.renderer.Renderer
+engine/renderer/GameObjectBatchRenderer.java
+ engine.renderer.GameObjectBatchRenderer
 engine/graphics/Shader.java
  engine.graphics.Shader
 engine/utils/FileIO.java
  engine.utils.FileIO
-engine/utils/Time.java
- engine.utils.Time
-engine/utils/Color.java
- engine.utils.Color
-engine/renderer/FrameBufferRenderer.java
- engine.renderer.FrameBufferRenderer
+engine/handler/Handler.java
+ engine.handler.Handler
+engine/utils/State.java
+ engine.utils.State
+engine/handler/StateHandler.java
+ engine.handler.StateHandler

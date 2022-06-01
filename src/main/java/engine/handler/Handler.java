@@ -18,12 +18,13 @@ public class Handler {
         entities.put(gameObject.getEID(), gameObject);
     }
 
+    public void removeEntity(long id){
+        entities.remove(id);
+    }
+
     public void update(){
         for(long i : entities.keySet()){
             entities.get(i).update();
         }
     }
-
-
-
 }

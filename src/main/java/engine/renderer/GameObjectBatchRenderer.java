@@ -5,7 +5,7 @@ import engine.physics.GameObject;
 
 import java.util.ArrayList;
 
-public class SquareBatchRenderer implements Renderer{
+public class GameObjectBatchRenderer extends Renderer{
     public static final int DEFAULT_MAX_OBJECTS = 256;
     public static final int FLOATBYTES = Float.BYTES;
 
@@ -16,7 +16,7 @@ public class SquareBatchRenderer implements Renderer{
     private ArrayList<GameObject> entitites;
     private VertexHandler vertexHandler;
 
-    public SquareBatchRenderer(int maxObjects){
+    public GameObjectBatchRenderer(int maxObjects){
         /*
             All vertices will be in float format
                 - developers should call the getVertexHandler.addAttribArray(new Attribute());
@@ -60,6 +60,8 @@ public class SquareBatchRenderer implements Renderer{
 
     public <T extends GameObject> void addEntity(T object){
         // TODO - finish this part
+        this.entitites.add(object);
+
     }
 
     public VertexHandler getVertexHandler(){
